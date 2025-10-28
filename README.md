@@ -1,3 +1,38 @@
+# Dependencias
+- Next.js
+- Tailwind CSS
+- Shadcn UI
+- SheetJS (`npm i --save https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz`)
+
+# Estructura del proyecto
+Lo más común y recomendado es esta estructura:
+
+- src/app/ — rutas y páginas
+
+- src/components/ — componentes reutilizables
+
+- src/utils/ — funciones utilitarias como la lógica de carga de Excel
+
+- src/lib/ — código propio que envuelve o extiende librerías externas
+
+```
++--📁src
+|   +--📁app/
+|   |   +--📁alumnos/
+|   |   |   +--📝page.jsx               # página con lista de alumnos
+|   |   +--📁asistencia/
+|   |   |   +--📝page.jsx               # página donde cargar el archivo de SINIDE
+|   |   +--📝page.tsx                   # página principal
+|   +--📁components/
+|   |   +--📁ui/                 
+|   +--📁lib/
+|   |   +--📝utils.ts                   # fusiona taiwind - por Shadcn UI
+|   |   |
+|   +--📁types/
+|   |   +--📝index.ts
+|   +--📁utils/
+```
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

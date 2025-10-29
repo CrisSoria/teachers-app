@@ -1,3 +1,4 @@
+import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays } from "./types";
 //TODO: lanza error si no hay datos o los datos no son validos
 /**
  * Processes raw attendance data into a structured format including student absences and holiday information.
@@ -7,8 +8,8 @@
  *   - dates: Object containing holiday information and total working days
  */
 export function processAttendanceData(
-  data: Array<Array<string>>
-): {studentAbsences: Array<AttendanceProcessed>, dates: AttendanceHolidays} {
+  data: Array<Array<string|number>>
+): IAttendanceProcessed {
   const dataTransformed = helperTransformAttendanceData(data);
   const studentAbsences = helperResumeAttendanceData(dataTransformed);
   const dates = helperGetHolidays(dataTransformed[0]);
@@ -43,11 +44,11 @@ type AttendanceObj = {
  * @private
  */
 function helperTransformAttendanceData(
-  data: Array<Array<string>>
+  data: Array<Array<string|number>>
 ): Array<AttendanceObj> {
   const dataFinal: Array<AttendanceObj> = [];
   data.forEach((row) => {
-    const att: AttendanceObj = { student: row[0] };
+    const att: AttendanceObj = { student: String(row[0]) };
     for (let i = 1; i < 32; i++) {
       if (row[i]) {
         att[i] = row[i] as AttStatus;
@@ -61,24 +62,15 @@ function helperTransformAttendanceData(
 }
 
 /**
- * Processed attendance data for a student
- * @property {string} student - Student's name or identifier
- * @property {Array<number>} absences - Array of days (1-31) when the student was absent
- */
-type AttendanceProcessed = {
-  student: string;
-  absences: Array<number>;
-};
-/**
  * Processes attendance data to extract only days with absences for each student
  * @param {Array<AttendanceObj>} data - Array of attendance objects
  * @returns {Array<AttendanceProcessed>} Processed attendance data with only absences
  * @private
  */
 function helperResumeAttendanceData(data: Array<AttendanceObj>) {
-  const dataFinal: Array<AttendanceProcessed> = [];
+  const dataFinal: Array<IStudientAttendance> = [];
   data.forEach((element) => {
-    const attObj: AttendanceProcessed = {
+    const attObj: IStudientAttendance = {
       student: element.student,
       absences: [],
     };
@@ -93,21 +85,12 @@ function helperResumeAttendanceData(data: Array<AttendanceObj>) {
 }
 
 /**
- * Information about holidays and working days in the month
- * @property {Array<number>} holidays - Array of days (1-31) that are holidays
- * @property {number} totalWorkingDays - Total number of working days in the month
- */
-type AttendanceHolidays = {
-  holidays: Array<number>;
-  totalWorkingDays: number;
-};
-/**
  * Extracts holiday information from attendance data
  * @param {AttendanceObj} data - Attendance data for a student (used to identify holidays)
  * @returns {AttendanceHolidays} Object containing holiday information and working day count
  * @private
  */
-function helperGetHolidays(data: AttendanceObj): AttendanceHolidays {
+function helperGetHolidays(data: AttendanceObj): IAttendanceHolidays {
   const holidays: Array<number> = [];
   for (const property in data) {
     if (data[property] === "-") {

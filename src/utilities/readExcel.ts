@@ -15,7 +15,7 @@ import XLSX from "xlsx";
  * const data = await readExcel(file, 10); // Reads after first 10 rows
  */
 
-export async function readExcel(file: File, range?: number): Promise<Array<Record<string, string>>> {
+export async function readExcel(file: File, range?: number): Promise<Array<Array<string>>> {
   const data = await file.arrayBuffer();
   const workbook = XLSX.read(data);
 

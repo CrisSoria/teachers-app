@@ -1,4 +1,6 @@
-export const studentsData = [
+import { Student } from "@/app/asistencia/sheet/student-age-calculator";
+
+export const studentsData: Student[] = [
   {
     "order": "1",
     "fecha_nacimiento": "15/05/2016",

@@ -29,7 +29,6 @@ export default function AsistenciaPage() {
       const attendanceData: IAttendanceProcessed =
         processAttendanceData(excelData);
       setAttendance(attendanceData);
-      console.log("data completa", attendanceData);
     } catch (error) {
       //TODO: Mostrar error en el frontend
       console.log(error);

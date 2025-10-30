@@ -1,31 +1,13 @@
 import { studentsData } from "@/utilities/mock-data";
 import { IAttendanceProcessed } from "../types";
-import { IVerticalSheet, IHorizontalSheet } from "./types";
+import {
+  Student,
+  calcularEdadesAlumnos,
+} from "@/app/asistencia/sheet/student-age-calculator";
+import { IVerticalSheet, IHorizontalSheet, ITotalSheet } from "./types";
 import next from "next";
 
-/*
-# Vertical
-necesito saber el sexo
-usar:
-!  totalWorkingDays - absences.length
-necesito retornar:
-{
-  student: string;
-  V(p): string;
-  V(i): string;
-  M(p): string;
-  M(i): string;
-}
-
-*/
 // TODO: Traer los datos de los estudiantes desde la base de datos
-/*
-{
-  1:fulano
-  2:mengano
-}
-
-*/
 const students = formatStudentData(studentsData);
 
 interface IStudent {
@@ -104,4 +86,123 @@ export function horizontalSheet(
   }
 
   return [rowVarones, rowMujeres, RowTotal];
+}
+
+/****************************** TOTAL ****************************** */
+export function totalSheet(
+  data: Array<IVerticalSheet>,
+  totalWorkingDays: number
+): Array<ITotalSheet> {
+  const totalAsistenciaData = auxTotalAsisInasis(data, totalWorkingDays);
+  const totalMediaData = auxMediaAttendance(
+    totalAsistenciaData,
+    totalWorkingDays
+  );
+  const totalPercentData = auxPercentAttendance(
+    totalAsistenciaData,
+    totalWorkingDays
+  );
+
+  return [...totalAsistenciaData, ...totalMediaData, ...totalPercentData];
+}
+
+function auxTotalAsisInasis(
+  data: Array<IVerticalSheet>,
+  totalWorkingDays: number
+): Array<ITotalSheet> {
+  let accAsisVarones = 0;
+  let accAsisMujeres = 0;
+  let accInasisVarones = 0;
+  let accInasisMujeres = 0;
+
+  data.forEach((e) => {
+    if (e.Vp !== "-") {
+      accAsisVarones += Number(e.Vp);
+    }
+    if (e.Vi !== "-") {
+      accInasisVarones += Number(e.Vi);
+    }
+    if (e.Mp !== "-") {
+      accAsisMujeres += Number(e.Mp);
+    }
+    if (e.Mi !== "-") {
+      accInasisMujeres += Number(e.Mi);
+    }
+  });
+
+  return [
+    {
+      row: "Total Asistencia",
+      varones: accAsisVarones,
+      mujeres: accAsisMujeres,
+      total: accAsisVarones + accAsisMujeres,
+    },
+    {
+      row: "Total Inasistencia",
+      varones: accInasisVarones,
+      mujeres: accInasisMujeres,
+      total: accInasisVarones + accInasisMujeres,
+    },
+  ];
+}
+
+function auxMediaAttendance(
+  totalAsistenciaData: Array<ITotalSheet>,
+  totalWorkingDays: number
+): Array<ITotalSheet> {
+  const mediaVarones = totalAsistenciaData[0].varones / totalWorkingDays;
+  const mediaMujeres = totalAsistenciaData[0].mujeres / totalWorkingDays;
+  const mediaTotal = totalAsistenciaData[0].total / totalWorkingDays;
+
+  return [
+    {
+      row: "Asistencia Media",
+      varones: Math.round(mediaVarones),
+      mujeres: Math.round(mediaMujeres),
+      total: Math.round(mediaTotal),
+    },
+  ];
+}
+
+function auxPercentAttendance(
+  totalAsistenciaData: Array<ITotalSheet>,
+  totalWorkingDays: number
+): Array<ITotalSheet> {
+  const percentVarones =
+    (totalAsistenciaData[0].varones * 100) /
+    (totalAsistenciaData[0].varones + totalAsistenciaData[1].varones);
+  const percentMujeres =
+    (totalAsistenciaData[0].mujeres * 100) /
+    (totalAsistenciaData[0].mujeres + totalAsistenciaData[1].mujeres);
+  const percentTotal =
+    (totalAsistenciaData[0].total * 100) /
+    (totalAsistenciaData[0].total + totalAsistenciaData[1].total);
+
+  return [
+    {
+      row: "Asistencia Porcentaje",
+      varones: Math.round(percentVarones),
+      mujeres: Math.round(percentMujeres),
+      total: Math.round(percentTotal),
+    },
+  ];
+}
+
+/************************** EDAD ***************************** */
+export type MonthlyAgeGroup = {
+  edad: number | string;
+  varones: number;
+  mujeres: number;
+  total: number;
+};
+export function ageSheet(month: string): MonthlyAgeGroup[] {
+  const ageGroupData = calcularEdadesAlumnos(studentsData, month);
+  const ageTotalData = { edad: "Total", varones: 0, mujeres: 0, total: 0 };
+  ageGroupData.forEach((e) => {
+    ageTotalData.varones += e.varones;
+    ageTotalData.mujeres += e.mujeres;
+    ageTotalData.total += e.total;
+  });
+
+  return [...ageGroupData, ageTotalData];
 }

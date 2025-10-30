@@ -8,5 +8,13 @@ export interface IVerticalSheet {
 
 export interface IHorizontalSheet {
   row: string;
-  [key: number]: number | "-";
+  [key: number]: number | "-" ;
 }
+
+export interface ITotalSheet {
+  row: string;
+  varones: number;
+  mujeres: number;
+  total: number;
+}
+

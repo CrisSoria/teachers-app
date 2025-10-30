@@ -2,7 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { AttendanceObj } from "../types";
-import { IVerticalSheet, IHorizontalSheet } from "./types";
+import { IVerticalSheet, IHorizontalSheet, ITotalSheet } from "./types";
+import { MonthlyAgeGroup } from "./utils";
 
 export const colGeneral: ColumnDef<AttendanceObj>[] = [
   {
@@ -121,3 +122,41 @@ for (let i = 1; i < 32; i++) {
     header: index,
   });
 }
+
+export const colTotal: ColumnDef<ITotalSheet>[] = [
+  {
+    accessorKey: "row",
+    header: "CONCEPTO",
+  },
+  {
+    accessorKey: "varones",
+    header: "VARONES",
+  },
+  {
+    accessorKey: "mujeres",
+    header: "MUJERES",
+  },
+  {
+    accessorKey: "total",
+    header: "TOTAL",
+  },
+];
+
+export const colAgeGroup: ColumnDef<MonthlyAgeGroup>[] = [
+  {
+    accessorKey: "edad",
+    header: "AÑOS",
+  },
+  {
+    accessorKey: "varones",
+    header: "VARONES",
+  },
+  {
+    accessorKey: "mujeres",
+    header: "MUJERES",
+  },
+  {
+    accessorKey: "total",
+    header: "TOTAL",
+  },
+];

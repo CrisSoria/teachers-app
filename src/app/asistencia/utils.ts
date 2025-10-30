@@ -1,11 +1,14 @@
-import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays } from "./types";
+import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays, AttendanceObj, AttStatus } from "./types";
 //TODO: lanza error si no hay datos o los datos no son validos
 /**
  * Processes raw attendance data into a structured format including student absences and holiday information.
  * @param {Array<Array<string>>} data - 2D array where each row represents a student's attendance record
+ [ "Almeda Sanchez,  Thiago Lorenzo", "P", "P", "P", "-", "-", "P", "P", "P", "P", "-", "-", "-", "P", "C", "P", "P", "C", "-", "-", "P", "P", "P", "P", "P", "-", "-", "-", "P", "-", "-", "-", 16, 0, 2, 10, 2 ], [ "Arjona Alejo,  Lara Aylen", "P", "P", "P", "-", "-", "P", "P", "P", "P", "-", "-", "-", "P", "P", "P", "P", "P", "-", "-", "P", "P", "P", "P", "P", "-", "-", "-", "P", "-", "-", "-", 18, 0, 0, 3, 0 ], ...]
+
  * @returns {Object} An object containing:
  *   - studentAbsences: Array of processed student attendance records
  *   - dates: Object containing holiday information and total working days
+ *   - dataTransformed: Array of attendance objects with student names and their daily status
  */
 export function processAttendanceData(
   data: Array<Array<string|number>>
@@ -13,34 +16,15 @@ export function processAttendanceData(
   const dataTransformed = helperTransformAttendanceData(data);
   const studentAbsences = helperResumeAttendanceData(dataTransformed);
   const dates = helperGetHolidays(dataTransformed[0]);
-  return {studentAbsences, dates};
+  return {studentAbsences, dates, dataTransformed};
 }
 
-/**
- * Attendance status codes:
- * - P: Presente (Present)
- * - C: Falta completa (Full absence)
- * - M: Media falta (Half absence)
- * - X: Tercio de falta (One third absence)
- * - Q: Cuarta falta (One fourth absence)
- * - T: Tres cuartas faltas (Three fourths absence)
- * - D: Doble falta (Double absence)
- * - -: Día sin actividad (Non-working day)
- */
-type AttStatus = "P" | "-" | "C" | "M" | "X" | "Q" | "T" | "D";
-/**
- * Represents a student's attendance record
- * @property {string} student - Student's name or identifier
- * @property {AttStatus} [key: number] - Attendance status for each day of the month (1-31)
- */
-type AttendanceObj = {
-  student: string;
-  [key: number]: AttStatus;
-};
+
 /**
  * Transforms raw attendance data into an array of AttendanceObj
  * @param {Array<Array<string>>} data - 2D array of attendance data
  * @returns {Array<AttendanceObj>} Array of attendance objects with student names and their daily status
+[{"1":"P","2":"P","3":"P","4":"-","5":"-","6":"P","7":"P","8":"P","9":"P","10":"-","11":"-","12":"-","13":"P","14":"C","15":"P","16":"P","17":"C","18":"-","19":"-","20":"P","21":"P","22":"P","23":"P","24":"P","25":"-","26":"-","27":"-","28":"P","29":"-","30":"-","31":"-","student":"Almeda Sanchez,  Thiago Lorenzo"},{"1":"P","2":"P","3":"P","4":"-","5":"-","6":"P","7":"P","8":"P","9":"P","10":"-","11":"-","12":"-","13":"P","14":"P","15":"P","16":"P","17":"P","18":"-","19":"-","20":"P","21":"P","22":"P","23":"P","24":"P","25":"-","26":"-","27":"-","28":"P","29":"-","30":"-","31":"-","student":"Arjona Alejo,  Lara Aylen"}, ...]
  * @private
  */
 function helperTransformAttendanceData(
@@ -64,7 +48,8 @@ function helperTransformAttendanceData(
 /**
  * Processes attendance data to extract only days with absences for each student
  * @param {Array<AttendanceObj>} data - Array of attendance objects
- * @returns {Array<AttendanceProcessed>} Processed attendance data with only absences
+ * @returns {Array<IStudientAttendance>} Array of objetcs whit Name of student and Array of days with absences.
+ [{"student":"Almeda Sanchez,  Thiago Lorenzo","absences":[14,17]},{"student":"Arjona Alejo,  Lara Aylen","absences":[]}, ...]
  * @private
  */
 function helperResumeAttendanceData(data: Array<AttendanceObj>) {

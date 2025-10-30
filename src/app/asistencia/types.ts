@@ -1,6 +1,7 @@
 export interface IAttendanceProcessed {
   studentAbsences: Array<IStudientAttendance> 
   dates: IAttendanceHolidays
+  dataTransformed: Array<AttendanceObj>
 } 
 
 /**
@@ -21,4 +22,26 @@ export interface IStudientAttendance {
 export interface IAttendanceHolidays {
   holidays: Array<number>;
   totalWorkingDays: number;
+};
+
+/**
+ * Attendance status codes:
+ * - P: Presente (Present)
+ * - C: Falta completa (Full absence)
+ * - M: Media falta (Half absence)
+ * - X: Tercio de falta (One third absence)
+ * - Q: Cuarta falta (One fourth absence)
+ * - T: Tres cuartas faltas (Three fourths absence)
+ * - D: Doble falta (Double absence)
+ * - -: Día sin actividad (Non-working day)
+ */
+export type AttStatus = "P" | "-" | "C" | "M" | "X" | "Q" | "T" | "D";
+/**
+ * Represents a student's attendance record
+ * @property {string} student - Student's name or identifier
+ * @property {AttStatus} [key: number] - Attendance status for each day of the month (1-31)
+ */
+export type AttendanceObj = {
+  student: string;
+  [key: number]: AttStatus;
 };

@@ -17,6 +17,7 @@ export default function AsistenciaPage() {
 
   const [loading, setLoading] = useState(false);
   const [attendance, setAttendance] = useState<IAttendanceProcessed>();
+  const [showSheet, setShowSheet] = useState(false);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -28,6 +29,7 @@ export default function AsistenciaPage() {
       const attendanceData: IAttendanceProcessed =
         processAttendanceData(excelData);
       setAttendance(attendanceData);
+      console.log("data completa", attendanceData);
     } catch (error) {
       //TODO: Mostrar error en el frontend
       console.log(error);
@@ -43,9 +45,19 @@ export default function AsistenciaPage() {
           Carga de asistencia
         </Heading>
         <Text variant="primary" className="mt-4">
-          Sube el archivo Excel <strong>"Reporte asistencia mensual por cursada"</strong> descargado desde la plataforma <a href='https://sge.salta.gob.ar/ui/#!/login' target='_blank' rel='noopener noreferrer'><strong>SINIDE</strong></a>:
+          Sube el archivo Excel{" "}
+          <strong>"Reporte asistencia mensual por cursada"</strong> descargado
+          desde la plataforma{" "}
+          <a
+            href="https://sge.salta.gob.ar/ui/#!/login"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong>SINIDE</strong>
+          </a>
+          :
         </Text>
-        <InputDropzone onFileUpload={handleFileUpload}/>
+        <InputDropzone onFileUpload={handleFileUpload} />
         <Heading variant="muted" weight="medium" size="h3" as="h3">
           Instrucciones:
         </Heading>
@@ -63,10 +75,22 @@ export default function AsistenciaPage() {
       </div>
     );
   }
+  if (!showSheet) {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <ValidateAttendance studentAbsences={attendance.studentAbsences} />
+        <Text leading="loose" variant="primary" className="my-4">
+          Si tus datos coinciden con los existentes en SINIDE, presiona el botón
+          "Generar planilla" para obtener las tablas.
+        </Text>
+        <Button onClick={() => setShowSheet(true)}>Generar planilla</Button>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-2xl mx-auto">
-      <ValidateAttendance studentAbsences={attendance.studentAbsences}/>
-      <AttendanceSheet studentAbsences={attendance.studentAbsences}/>
+      <AttendanceSheet attendance={attendance} />
     </div>
   );
 }

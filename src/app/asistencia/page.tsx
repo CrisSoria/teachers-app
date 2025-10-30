@@ -1,10 +1,16 @@
 "use client";
 
 import { readExcel } from "@/utilities/readExcel";
-import { InputDropzone } from "@/components/input-dropzone";
 import { useState } from "react";
 import { processAttendanceData } from "./utils";
 import { IAttendanceProcessed } from "./types";
+import { Button } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
+import { OlList } from "@/components/ol-list";
+import { InputDropzone } from "@/components/input-dropzone";
+import { ValidateAttendance } from "./validate/validate-attendance";
+import { AttendanceSheet } from "./sheet/attendance-sheet";
 
 export default function AsistenciaPage() {
   const ROWS_TO_SKIP = 13; // Filas a saltar del archivo Excel del SINIDE
@@ -19,10 +25,9 @@ export default function AsistenciaPage() {
 
     try {
       const excelData = await readExcel(file, ROWS_TO_SKIP);
-      console.log("Raw excel data:", excelData);
-      //TODO: Validar que el archivo tenga la estructura correcta -> asignar a attendance
-      const attendanceData: IAttendanceProcessed = processAttendanceData(excelData);
-      console.log("attendanceData", attendanceData);
+      const attendanceData: IAttendanceProcessed =
+        processAttendanceData(excelData);
+      setAttendance(attendanceData);
     } catch (error) {
       //TODO: Mostrar error en el frontend
       console.log(error);
@@ -31,10 +36,37 @@ export default function AsistenciaPage() {
     }
   };
 
+  if (!attendance) {
+    return (
+      <div className="max-w-2xl mx-auto flex flex-col ">
+        <Heading weight="bold" size="h2" as="h2">
+          Carga de asistencia
+        </Heading>
+        <Text variant="primary" className="mt-4">
+          Sube el archivo Excel <strong>"Reporte asistencia mensual por cursada"</strong> descargado desde la plataforma <a href='https://sge.salta.gob.ar/ui/#!/login' target='_blank' rel='noopener noreferrer'><strong>SINIDE</strong></a>:
+        </Text>
+        <InputDropzone onFileUpload={handleFileUpload}/>
+        <Heading variant="muted" weight="medium" size="h3" as="h3">
+          Instrucciones:
+        </Heading>
+        <OlList
+          variant="muted"
+          items={[
+            "Accede a la plataforma <a href='https://sge.salta.gob.ar/ui/#!/login' target='_blank' rel='noopener noreferrer'><strong>SINIDE</strong></a>.",
+            "Navega a la sección de <strong>Asistencia</strong>, seleccionando el Grado y una semana en el Mes que correspondan.",
+            "Haz clic en el ícono de la <strong>impresora</strong>, ubicado en la esquina superior derecha.",
+            'En el menú desplegable, selecciona la opción <strong>"Reporte asistencia mensual por cursada"</strong>.',
+            "Asegúrate de que el archivo a descargar tenga la extensión <strong>.xls</strong>.",
+            'Una vez descargado, vuelve a esta página y haz clic en <strong>"Seleccionar archivo"</strong> para subir la planilla.',
+          ]}
+        />
+      </div>
+    );
+  }
   return (
-    <div>
-      <h1>Carga de Asistencia</h1>
-      <InputDropzone onFileUpload={handleFileUpload} />
+    <div className="max-w-2xl mx-auto">
+      <ValidateAttendance studentAbsences={attendance.studentAbsences}/>
+      <AttendanceSheet studentAbsences={attendance.studentAbsences}/>
     </div>
   );
 }

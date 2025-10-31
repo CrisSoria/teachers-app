@@ -76,7 +76,7 @@ export default function AsistenciaPage() {
   }
   if (!showSheet) {
     return (
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto my-4">
         <ValidateAttendance studentAbsences={attendance.studentAbsences} />
         <Text leading="loose" variant="primary" className="my-4">
           Si tus datos coinciden con los existentes en SINIDE, presiona el botón

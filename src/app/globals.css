@@ -41,6 +41,21 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* mis colores personalizados */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-blue: var(--blue);
+  --color-blue-foreground: var(--blue-foreground);
+
+  --color-gray: var(--gray);
+  --color-gray-foreground: var(--gray-foreground);
+
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
 }
 
 :root {
@@ -76,6 +91,21 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Colores nuevos para modo claro */
+  --success: oklch(0.615 0.19 136.5); /* verde */
+  --success-foreground: oklch(0.98 0 140);
+
+  --warning: oklch(0.828 0.189 84.429); /* amarillo */
+  --warning-foreground: oklch(0.15 0.02 94);
+
+  --blue: oklch(0.45 0.2 240); /* azul */
+  --blue-foreground: oklch(0.95 0 240);
+
+  --gray: oklch(0.55 0 0); /* gris neutro */
+  --gray-foreground: oklch(0.15 0 0);
+
+  --error: oklch(0.55 0.3 29); /* rojo */
+  --error-foreground: oklch(0.95 0 29);
 }
 
 .dark {
@@ -110,6 +140,21 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Colores nuevos para modo oscuro */
+  --success: oklch(0.35 0.25 144);
+  --success-foreground: oklch(0.85 0 144);
+
+  --warning: oklch(0.666 0.179 58.318);
+  --warning-foreground: oklch(0.75 0.05 96);
+
+  --blue: oklch(0.35 0.25 245);
+  --blue-foreground: oklch(0.85 0 245);
+
+  --gray: oklch(0.25 0 0);
+  --gray-foreground: oklch(0.75 0 0);
+
+  --error: oklch(0.35 0.3 30);
+  --error-foreground: oklch(0.85 0 30);
 }
 
 @layer base {

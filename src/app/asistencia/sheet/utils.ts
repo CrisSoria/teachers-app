@@ -1,11 +1,7 @@
 import { studentsData } from "@/utilities/mock-data";
 import { IAttendanceProcessed } from "../types";
-import {
-  Student,
-  calcularEdadesAlumnos,
-} from "@/app/asistencia/sheet/student-age-calculator";
+import { calcularEdadesAlumnos } from "@/app/asistencia/sheet/student-age-calculator";
 import { IVerticalSheet, IHorizontalSheet, ITotalSheet } from "./types";
-import next from "next";
 
 // TODO: Traer los datos de los estudiantes desde la base de datos
 const students = formatStudentData(studentsData);
@@ -65,14 +61,7 @@ export function horizontalSheet(
     studentsData.forEach((e, index) => {
       const gender = students[index + 1].genero;
       const status = data.dataTransformed[index][i];
-      const isHoliday = data.dataTransformed[index][i] === "-";
 
-      if (isHoliday) {
-        rowVarones[i] = "-";
-        rowMujeres[i] = "-";
-        RowTotal[i] = "-";
-        next;
-      }
       if (gender === "M" && status === "P") {
         contVarPres++;
       }
@@ -80,9 +69,10 @@ export function horizontalSheet(
         contMujPres++;
       }
     });
-    rowVarones[i] = contVarPres;
-    rowMujeres[i] = contMujPres;
-    RowTotal[i] = contVarPres + contMujPres;
+    rowVarones[i] = contVarPres == 0 ? "-" : contVarPres;
+    rowMujeres[i] = contMujPres == 0 ? "-" : contMujPres;
+    RowTotal[i] =
+      contVarPres + contMujPres == 0 ? "-" : contVarPres + contMujPres;
   }
 
   return [rowVarones, rowMujeres, RowTotal];

@@ -1,6 +1,6 @@
 import { studentsData } from "@/utilities/mock-data";
 import { IAttendanceProcessed } from "../types";
-import { calcularEdadesAlumnos } from "@/app/asistencia/sheet/student-age-calculator";
+import { calcularEdadesAlumnos } from "@/app/asistencia/(tables)/student-age-calculator";
 import { IVerticalSheet, IHorizontalSheet, ITotalSheet } from "./types";
 
 // TODO: Traer los datos de los estudiantes desde la base de datos

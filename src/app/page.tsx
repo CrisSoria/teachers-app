@@ -1,12 +1,13 @@
-import Ejemplos from "./Ejemplos";
-import CheckboxCardExample from "./ChecboxCardExamples";
+import { Hero } from "@/app/(sections)/hero";
+import { Features } from "@/app/(sections)/features";
+import { Pricing } from "@/app/(sections)/pricing";
 
 export default function Home() {
   return (
     <>
-      <h1>Landing page</h1>
-      <Ejemplos />
-      <CheckboxCardExample />
+      <Hero />
+      <Features />
+      <Pricing />
     </>
   );
 }

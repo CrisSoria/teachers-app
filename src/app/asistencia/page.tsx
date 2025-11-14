@@ -9,8 +9,8 @@ import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import { OlList } from "@/components/ol-list";
 import { InputDropzone } from "@/components/input-dropzone";
-import { ValidateAttendance } from "./validate/validate-attendance";
-import { AttendanceSheet } from "./sheet/attendance-sheet";
+import { ValidateAttendance } from "./(validate)/validate-attendance";
+import { AttendanceSheet } from "./(tables)/attendance-sheet";
 
 export default function AsistenciaPage() {
   const ROWS_TO_SKIP = 13; // Filas a saltar del archivo Excel del SINIDE

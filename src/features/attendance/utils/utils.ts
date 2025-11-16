@@ -1,4 +1,4 @@
-import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays, AttendanceObj, AttStatus } from "./types";
+import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays, AttendanceObj, AttStatus } from "@/features/attendance/interfaces/types";
 //TODO: lanza error si no hay datos o los datos no son validos
 /**
  * Processes raw attendance data into a structured format including student absences and holiday information.

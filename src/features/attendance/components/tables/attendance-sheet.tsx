@@ -1,6 +1,6 @@
 "use client";
 
-import { IAttendanceProcessed } from "../types";
+import { IAttendanceProcessed } from "../../interfaces/types";
 import {
   colGeneral,
   colVertical,

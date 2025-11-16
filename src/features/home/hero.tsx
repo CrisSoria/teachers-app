@@ -4,26 +4,25 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
+import { Variants } from "framer-motion";
 
-const transitionVariants = {
-  item: {
-    hidden: {
-      opacity: 0,
-      filter: "blur(12px)",
-      y: 12,
-    },
-    visible: {
-      opacity: 1,
-      filter: "blur(0px)",
-      y: 0,
-      transition: {
-        type: "spring",
-        bounce: 0.3,
-        duration: 1.5,
-      },
+const transitionVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    filter: "blur(12px)",
+    y: 12,
+  },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    y: 0,
+    transition: {
+      type: "spring",
+      bounce: 0.3,
+      duration: 1.5,
     },
   },
-};
+} as const;
 
 export function Hero() {
   return (
@@ -66,13 +65,13 @@ export function Hero() {
               }}
               className="mask-b-from-35% mask-b-to-90% absolute inset-0 top-56 -z-20 lg:top-32"
             >
-              {/* <Image
-                                src="https://media.juanfutbol.com/wp-content/uploads/2024/08/JFB_20240813_JFB_187467_Mesi.jpg"
-                                alt="background"
-                                className="hidden size-full dark:block"
-                                width="3276"
-                                height="4095"
-                            /> */}
+              <Image
+                src="/assets/night-background.webp"
+                alt="background"
+                className="hidden size-full dark:block"
+                width="3276"
+                height="4095"
+              />
             </AnimatedGroup>
 
             <div
@@ -111,7 +110,7 @@ export function Hero() {
                   as="h1"
                   className="mx-auto mt-8 max-w-4xl text-balance text-5xl max-md:font-semibold md:text-7xl lg:mt-16 xl:text-[5.25rem]"
                 >
-                  Modern Solutions for Customer Engagement
+                  Menos papeleo,más enseñanza
                 </TextEffect>
                 <TextEffect
                   per="line"
@@ -121,8 +120,7 @@ export function Hero() {
                   as="p"
                   className="mx-auto mt-8 max-w-2xl text-balance text-lg"
                 >
-                  Highly customizable components for building modern websites
-                  and applications that look and feel the way you mean it.
+                  La herramienta que simplifica tu día como docente
                 </TextEffect>
 
                 <AnimatedGroup
@@ -149,7 +147,7 @@ export function Hero() {
                       className="rounded-xl px-5 text-base"
                     >
                       <Link href="#link">
-                        <span className="text-nowrap">Start Building</span>
+                        <span className="text-nowrap">Comenzar</span>
                       </Link>
                     </Button>
                   </div>
@@ -161,7 +159,7 @@ export function Hero() {
                     className="h-10.5 rounded-xl px-5"
                   >
                     <Link href="#link">
-                      <span className="text-nowrap">Request a demo</span>
+                      <span className="text-nowrap">Planilla de Asistencias</span>
                     </Link>
                   </Button>
                 </AnimatedGroup>
@@ -185,14 +183,15 @@ export function Hero() {
                 <div className="inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1">
                   <Image
                     className="bg-background aspect-15/8 relative hidden rounded-2xl dark:block"
-                    src="/mail2.png"
+                    src="/assets/attendance.png"
                     alt="app screen"
                     width="2700"
                     height="1440"
                   />
+                  {/* TODO: cambiar la imagen segun el tema blanco o negro */}
                   <Image
                     className="z-2 border-border/25 aspect-15/8 relative rounded-2xl border dark:hidden"
-                    src="/mail2-light.png"
+                    src="/assets/attendance.png"
                     alt="app screen"
                     width="2700"
                     height="1440"
@@ -202,6 +201,7 @@ export function Hero() {
             </AnimatedGroup>
           </div>
         </section>
+{/*         
         <section className="bg-background pb-16 pt-16 md:pb-32">
           <div className="group relative m-auto max-w-5xl px-6">
             <div className="absolute inset-0 z-10 flex scale-95 items-center justify-center opacity-0 duration-500 group-hover:scale-100 group-hover:opacity-100">
@@ -291,7 +291,7 @@ export function Hero() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
     </>
   );

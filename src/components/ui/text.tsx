@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const textVariants = cva(
-  "text-foreground",
+  "text-foreground inline-block",
   {
     variants: {
       variant: {

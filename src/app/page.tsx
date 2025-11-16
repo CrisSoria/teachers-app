@@ -1,6 +1,6 @@
-import { Hero } from "@/app/(sections)/hero";
-import { Features } from "@/app/(sections)/features";
-import { Pricing } from "@/app/(sections)/pricing";
+import { Hero } from "@/features/home/hero";
+import { Features } from "@/features/home/features";
+import { Pricing } from "@/features/home/pricing";
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import { Student } from "@/app/asistencia/(tables)/student-age-calculator";
+import { Student } from "@/features/attendance/components/tables/student-age-calculator";
 
 export const studentsData: Student[] = [
   {

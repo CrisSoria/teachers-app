@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { AttendanceObj } from "../types";
+import { AttendanceObj } from "../../interfaces/types";
 import { IVerticalSheet, IHorizontalSheet, ITotalSheet } from "./types";
 import { MonthlyAgeGroup } from "./utils";
 import { Button } from "@/components/ui/button";

@@ -1,4 +1,4 @@
-import { IStudientAttendance } from "../types";
+import { IStudientAttendance } from "../../interfaces/types";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { CheckboxCard } from "@/components/ui/checkbox-card";

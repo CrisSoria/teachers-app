@@ -4,6 +4,9 @@
 - Shadcn UI
 - SheetJS (`npm i --save https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz`)
 - @tanstack/react-table (para mostrar tablas)
+- zustand (para manejar el estado)
+- react-hook-form (para manejar el formulario)
+- zod (para validar el formulario)
 
 # Estructura del proyecto
 Lo más común y recomendado es esta estructura:

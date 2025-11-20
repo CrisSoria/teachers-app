@@ -13,14 +13,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/features/auth/interfaces/zod.schemas";
 import { register } from "@/features/auth/services/auth.service";
 import { Logo } from "@/components/logo";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useState } from "react";
+import { RegisterOtp } from "./register-otp";
 
 export function RegisterForm() {
-  const router = useRouter();
+  const [showOtp, setShowOtp] = useState(false);
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -36,8 +38,17 @@ export function RegisterForm() {
       if (result.success) {
         toast.success(result.message);
 
-        // redirigir a la verificación OTP
-        router.push("/registro/otp");
+        // Guardar el usuario en el store
+        if (result.data?.newUser) {
+          setShowOtp(true);
+          //Todo de newuser mandar el email y passwoer? no pass binene del form
+        } else {
+          console.log("No se encontró newUser en result.data");
+          console.log(
+            "Estructura completa de result.data:",
+            JSON.stringify(result.data, null, 2)
+          );
+        }
       }
     } catch (error: unknown) {
       console.error("Registro fallido", error);
@@ -49,6 +60,14 @@ export function RegisterForm() {
     }
   }
 
+  if (showOtp) {
+    return (
+      <RegisterOtp
+        email={form.getValues("email")}
+        password={form.getValues("password")}
+      />
+    );
+  }
   return (
     <Form {...form}>
       <form
@@ -127,7 +146,13 @@ export function RegisterForm() {
               />
             </div>
 
-            <Button className="w-full">Registrarse</Button>
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Registrando..." : "Registrarse"}
+            </Button>
           </div>
 
           <div className="my-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">

@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Form,
   FormControl,
@@ -19,8 +20,12 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useState } from "react";
+import { RegisterOtp } from "./register-otp";
+import { generateOtp } from "../services/otp.service";
 
 export function LoginForm() {
+  const [showOtp, setShowOtp] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -51,6 +56,25 @@ export function LoginForm() {
         }
       }
     } catch (error: unknown) {
+      // Si el error es un error de autenticación, mostrar el OTP
+      if (error instanceof Error && error.message === "OTP es requerido") {
+        setShowOtp(true);
+        try {
+          const result = await generateOtp(form.getValues("email"));
+          if (result.success) {
+            toast.success(result.message);
+          } else {
+            toast.error(result.message);
+          }
+        } catch (error: unknown) {
+          console.error("Error al reenviar OTP", error);
+          if (error instanceof Error) {
+            toast.error(error.message);
+          } else {
+            toast.error("Error desconocido al reenviar OTP");
+          }
+        }
+      }
       console.error("Login fallido", error);
       if (error instanceof Error) {
         toast.error(error.message);
@@ -58,6 +82,15 @@ export function LoginForm() {
         toast.error("Error desconocido al iniciar sesión");
       }
     }
+  }
+
+  if (showOtp) {
+    return (
+      <RegisterOtp
+        email={form.getValues("email")}
+        password={form.getValues("password")}
+      />
+    );
   }
 
   return (

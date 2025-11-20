@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+// Reusable token validation schema
+const tokenValidation = {
+  token: z
+    .string()
+    .length(6, "El token debe tener exactamente 6 caracteres")
+    .regex(/^[0-9]+$/, "El token debe contener solo números"),
+};
+
+export const otpFormSchema = z.object({
+  ...tokenValidation,
+});
+
 export const loginSchema = z.object({
   email: z
     .email("El correo debe ser válido")
@@ -15,6 +27,12 @@ export const loginSchema = z.object({
       /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
       "La contraseña debe tener al menos un carácter especial"
     ),
+  //Todo: revisar si esto es correcto o se esta repitiendo
+  otp: z
+    .string()
+    .length(6, "El token debe tener exactamente 6 caracteres")
+    .regex(/^[0-9]+$/, "El token debe contener solo números")
+    .optional(),
 });
 
 export const registerSchema = z.object({
@@ -36,4 +54,11 @@ export const registerSchema = z.object({
       /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
       "La contraseña debe tener al menos un carácter especial"
     ),
+});
+
+export const otpSchema = z.object({
+  token: z
+    .string()
+    .length(6, "El token debe tener exactamente 6 caracteres")
+    .regex(/^[0-9]+$/, "El token debe contener solo números"),
 });

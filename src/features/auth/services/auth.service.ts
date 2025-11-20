@@ -1,5 +1,5 @@
 "use server";
-import { useUserStore } from "@/lib/user-store";
+
 import { registerSchema, loginSchema } from "../interfaces/zod.schemas";
 import { z } from "zod";
 
@@ -9,52 +9,56 @@ import { z } from "zod";
  * Genera JWT tokens en cookie y guarda el usuario en el store
  */
 export async function register(values: z.infer<typeof registerSchema>) {
-    try {
-      // Server side validation
-        const result = registerSchema.safeParse(values);
-        if (!result.success) {
-            const errorMessages = result.error.issues.map((err: any) => err.message).join(", ");
-            throw new Error(errorMessages);
-        }
-
-        const { name, email, password } = values;
-        const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/register`;
-
-        const response = await fetch(URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name, email, password }),
-        });
-
-        const responseJson = await response.json();
-
-        if (response.ok) {
-            // Guardar el usuario en el store
-            useUserStore.setState({ user: responseJson.user });
-            return { success: true, data: responseJson, message: "Registro exitoso" };
-        }
-
-        // Manejar diferentes tipos de errores HTTP
-        if (response.status === 401) {
-            throw new Error("Credenciales incorrectas. Por favor, verifica tu email y contraseña.");
-        } else if (response.status === 403) {
-            throw new Error("Tu cuenta está desactivada. Contacta al administrador.");
-        } else if (response.status === 429) {
-            throw new Error("Demasiados intentos. Por favor, espera unos minutos antes de intentar nuevamente.");
-        } else if (response.status >= 500) {
-            throw new Error("Error del servidor. Por favor, intenta más tarde.");
-        } else {
-            throw new Error(responseJson.message || "Error al registrar usuario");
-        }
-    } catch (error) {
-        console.error("Error al registrar usuario:", error);
-        if (error instanceof Error) {
-            throw error;
-        }
-        throw new Error("Error al registrar usuario");
+  try {
+    // Server side validation
+    const result = registerSchema.safeParse(values);
+    if (!result.success) {
+      const errorMessages = result.error.issues
+        .map((err: any) => err.message)
+        .join(", ");
+      throw new Error(errorMessages);
     }
+
+    const { name, email, password } = values;
+    const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/register`;
+
+    const response = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      return { success: true, data: responseJson, message: "Registro exitoso" };
+    }
+
+    // Manejar diferentes tipos de errores HTTP
+    if (response.status === 401) {
+      throw new Error(
+        "Credenciales incorrectas. Por favor, verifica tu email y contraseña."
+      );
+    } else if (response.status === 403) {
+      throw new Error("Tu cuenta está desactivada. Contacta al administrador.");
+    } else if (response.status === 429) {
+      throw new Error(
+        "Demasiados intentos. Por favor, espera unos minutos antes de intentar nuevamente."
+      );
+    } else if (response.status >= 500) {
+      throw new Error("Error del servidor. Por favor, intenta más tarde.");
+    } else {
+      throw new Error(responseJson.message || "Error al registrar usuario");
+    }
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Error al registrar usuario");
+  }
 }
 
 /**
@@ -63,14 +67,18 @@ export async function register(values: z.infer<typeof registerSchema>) {
  * Genera JWT tokens en cookie y guarda el usuario en el store
  */
 export const login = async (values: z.infer<typeof loginSchema>) => {
+  console.warn("Login de service", values);
   // Server side validation
   const result = loginSchema.safeParse(values);
+
   if (!result.success) {
-    const errorMessages = result.error.issues.map((err: any) => err.message).join(", ");
+    const errorMessages = result.error.issues
+      .map((err: any) => err.message)
+      .join(", ");
     throw new Error(errorMessages);
   }
-  
-  const { email, password } = values;
+
+  const { email, password, otp } = values;
   const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
 
   try {
@@ -79,40 +87,25 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, otp }),
     });
 
     const responseJson = await response.json();
 
     if (response.ok) {
-      // Guardar el usuario en el store
-      useUserStore.setState({ user: responseJson.user });
       return { success: true, data: responseJson, message: "Login exitoso" };
-    }
-
-    // Manejar diferentes tipos de errores HTTP
-    if (response.status === 401) {
-      throw new Error("Credenciales incorrectas. Por favor, verifica tu email y contraseña.");
-    } else if (response.status === 403) {
-      throw new Error("Tu cuenta está desactivada. Contacta al administrador.");
-    } else if (response.status === 429) {
-      throw new Error("Demasiados intentos. Por favor, espera unos minutos antes de intentar nuevamente.");
-    } else if (response.status >= 500) {
-      throw new Error("Error del servidor. Por favor, intenta más tarde.");
     } else {
-      throw new Error(responseJson.message || "Error al iniciar sesión");
+      throw new Error(responseJson.message);
     }
   } catch (error) {
     if (error instanceof Error) {
       // Si ya es un Error con nuestro mensaje personalizado, lo propagamos
       throw error;
     }
-    
     // Errores de red o conexión
     if (error instanceof TypeError) {
       throw new Error("Error de conexión. Verifica tu conexión a internet.");
     }
-    
     // Error genérico
     throw new Error("Error al iniciar sesión. Por favor, intenta nuevamente.");
   }
@@ -133,8 +126,6 @@ export const refreshToken = async () => {
 
     if (response.ok) {
       const data = await response.json();
-      // Guardar el usuario en el store
-      useUserStore.setState({ user: data.user });
       return data;
     }
 

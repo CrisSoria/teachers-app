@@ -23,9 +23,11 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { RegisterOtp } from "./register-otp";
 import { generateOtp } from "../services/otp.service";
+import { useUserStore } from "@/lib/user-store";
 
 export function LoginForm() {
   const [showOtp, setShowOtp] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -40,7 +42,7 @@ export function LoginForm() {
       const result = await login(values);
       if (result.success) {
         toast.success(result.message);
-
+        setUser(result.data.user);
         // Redirigir a la página anterior solo si es dentro de la app, sino a /alumnos
         const referrer = document.referrer; // URL de la página anterior
         const appOrigin = window.location.origin; // URL de la página actual

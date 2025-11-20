@@ -41,7 +41,6 @@ export function RegisterForm() {
         // Guardar el usuario en el store
         if (result.data?.newUser) {
           setShowOtp(true);
-          //Todo de newuser mandar el email y passwoer? no pass binene del form
         } else {
           console.log("No se encontró newUser en result.data");
           console.log(

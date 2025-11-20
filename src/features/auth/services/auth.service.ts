@@ -1,6 +1,10 @@
 "use server";
 
-import { registerSchema, loginSchema } from "../interfaces/zod.schemas";
+import {
+  registerSchema,
+  loginSchema,
+  changePasswordSchema,
+} from "../interfaces/zod.schemas";
 import { z } from "zod";
 
 /**
@@ -67,7 +71,6 @@ export async function register(values: z.infer<typeof registerSchema>) {
  * Genera JWT tokens en cookie y guarda el usuario en el store
  */
 export const login = async (values: z.infer<typeof loginSchema>) => {
-  console.warn("Login de service", values);
   // Server side validation
   const result = loginSchema.safeParse(values);
 
@@ -135,3 +138,41 @@ export const refreshToken = async () => {
     throw new Error("Error al renovar token");
   }
 };
+
+export async function changePassword(
+  values: z.infer<typeof changePasswordSchema>
+) {
+  try {
+    const result = changePasswordSchema.safeParse(values);
+    if (!result.success) {
+      const errorMessages = result.error.issues
+        .map((err: any) => err.message)
+        .join(", ");
+      throw new Error(errorMessages);
+    }
+    const { email, password, token } = values;
+    const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`;
+    const response = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, newPassword: password, token }),
+    });
+    const responseJson = await response.json();
+    if (response.ok) {
+      return {
+        success: true,
+        data: responseJson,
+        message: responseJson.message,
+      };
+    } else {
+      throw new Error(responseJson.message);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Error al cambiar contraseña");
+  }
+}

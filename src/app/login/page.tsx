@@ -2,7 +2,7 @@ import { LoginForm } from "@/features/auth/components/login-form";
 
 export default function LoginPage() {
   return (
-    <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
+    <section className="my-5 md:my-7 mx-2">
       <LoginForm />
     </section>
   );

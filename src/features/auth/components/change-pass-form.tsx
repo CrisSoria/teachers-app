@@ -104,7 +104,7 @@ export function ChangePassForm() {
         onSubmit={form.handleSubmit(onChangePassword)}
         className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]"
       >
-        <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
+        <div className="bg-card rounded-[calc(var(--radius)+.125rem)] border p-4 md:p-8 pb-6">
           <div className="text-center">
             <Link href="/" aria-label="go home" className="mx-auto block w-fit">
               <Logo />
@@ -235,7 +235,7 @@ export function ChangePassForm() {
         </div>
 
         <div className="p-3">
-          <p className="text-accent-foreground text-center text-sm">
+          <p className="text-muted-foreground text-center text-sm">
             ¿Recordaste tu contraseña?
             <Button asChild variant="link" className="px-2">
               <Link href="/login">Iniciar sesión</Link>

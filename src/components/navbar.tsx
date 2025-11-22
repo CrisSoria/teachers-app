@@ -2,6 +2,7 @@
 import { Home, Users, ClipboardCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -16,20 +17,51 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 import { Logo } from "@/components/logo";
 import { usePathname } from "next/navigation";
+import { useUserStore } from "@/lib/user-store";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { logout } from "@/features/auth/services/auth.service";
+import { toast } from "sonner";
 
-// Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [
+// Navigation links array depende si hay user logueado
+const guestLinks = [
+  { href: "/", label: "Inicio", icon: Home },
+  { href: "/asistencia", label: "Asistencia", icon: ClipboardCheck },
+];
+const userLinks = [
   { href: "/", label: "Inicio", icon: Home },
   { href: "/alumnos", label: "Alumnos", icon: Users },
   { href: "/asistencia", label: "Asistencia", icon: ClipboardCheck },
 ];
 
 export function Navbar() {
+  const user = useUserStore((state) => state.user); //usuario logueado
+  const removeUser = useUserStore((state) => state.removeUser);
   const currentPath = usePathname();
   const isActive = (href: string) => href === currentPath;
+  const navigationLinks = user ? userLinks : guestLinks;
+
+  // navbar.tsx
+  async function onLogout() {
+    try {
+      const response = await logout();
+      // Si llegamos aquí, la petición fue exitosa
+      if (response.success) {
+        toast.success("Sesión cerrada correctamente");
+        removeUser();
+      } else {
+        toast.error(response.message);
+      }
+      // TODO: Redirigir al login
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      toast.error("Error al cerrar sesión. Inténtalo de nuevo.");
+    }
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border px-4 md:px-6 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="flex h-16 items-center justify-between gap-4">
+      <div className="max-w-5xl mx-auto flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
           {/* Mobile menu trigger */}
@@ -109,15 +141,31 @@ export function Navbar() {
           </div>
         </div>
         {/* Right side */}
-        <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm" className="text-sm">
-            <a href="/login">Iniciar sesión</a>
-          </Button>
-          <Button asChild size="sm" className="text-sm">
-            <a href="/registro">Registrarse</a>
-          </Button>
-          <ThemeToggle />
-        </div>
+        {user ? (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-sm"
+              onClick={onLogout}
+            >
+              Cerrar sesión
+            </Button>
+            <Avatar>
+              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <ThemeToggle />
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Button asChild variant="ghost" size="sm" className="text-sm">
+              <Link href="/login">Iniciar sesión</Link>
+            </Button>
+            <Button asChild size="sm" className="text-sm">
+              <Link href="/registro">Registrarse</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </header>
   );

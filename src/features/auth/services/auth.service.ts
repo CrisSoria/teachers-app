@@ -1,5 +1,3 @@
-"use server";
-
 import {
   registerSchema,
   loginSchema,
@@ -90,6 +88,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // This is needed to include cookies
       body: JSON.stringify({ email, password, otp }),
     });
 
@@ -124,12 +123,15 @@ export const refreshToken = async () => {
     const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`;
     const response = await fetch(URL, {
       method: "POST",
-      credentials: "include",
+      credentials: "include", // Enviar cookies
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     if (response.ok) {
       const data = await response.json();
-      return data;
+      return { success: true, data };
     }
 
     throw new Error("Refresh token inválido");
@@ -174,5 +176,26 @@ export async function changePassword(
       throw error;
     }
     throw new Error("Error al cambiar contraseña");
+  }
+}
+
+export async function logout() {
+  try {
+    const URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`;
+    const response = await fetch(URL, {
+      method: "POST",
+      credentials: "include",
+    });
+    if (response.ok) {
+      return {
+        success: true,
+        message: "Sesión cerrada correctamente",
+      };
+    } else {
+      throw new Error("Logout fallido");
+    }
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+    throw new Error("Error al cerrar sesión");
   }
 }

@@ -93,7 +93,7 @@ export function RegisterOtp({
         }}
         className="bg-muted m-auto h-fit w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)+.125rem)] border shadow-md shadow-zinc-950/5 dark:[--color-muted:var(--color-zinc-900)]"
       >
-        <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-8 pb-6">
+        <div className="bg-card -m-px rounded-[calc(var(--radius)+.125rem)] border p-4 md:p-8 pb-6">
           <div className="text-center">
             <Link href="/" aria-label="go home" className="mx-auto block w-fit">
               <Logo />
@@ -159,7 +159,7 @@ export function RegisterOtp({
         </div>
 
         <div className="p-3">
-          <p className="text-accent-foreground text-center text-sm">
+          <p className="text-muted-foreground text-center text-sm">
             ¿No recibiste el código?
             <Button variant="link" className="px-2" onClick={onResendOtp}>
               Reenviar código

@@ -164,6 +164,7 @@ export function Navbar() {
             <Button asChild size="sm" className="text-sm">
               <Link href="/registro">Registrarse</Link>
             </Button>
+            <ThemeToggle />
           </div>
         )}
       </div>

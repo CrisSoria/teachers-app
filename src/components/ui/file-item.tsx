@@ -13,30 +13,16 @@ export function UploadedFileItem({
   progress,
   onRemove,
 }: UploadedFileItemProps) {
-  const imageUrl = URL.createObjectURL(file);
-
-  useEffect(() => {
-    return () => URL.revokeObjectURL(imageUrl);
-  }, [imageUrl]);
-
   return (
     <div
       className="border border-border rounded-lg p-2 flex flex-col"
       key={file.name}
     >
       <div className="flex items-center gap-2">
-        <div className="w-18 h-14 bg-muted rounded-sm flex items-center justify-center self-start row-span-2 overflow-hidden">
-          <img
-            src={imageUrl}
-            alt={file.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
         <div className="flex-1 pr-1">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-foreground truncate max-w-[250px]">
+              <span className="text-sm text-foreground truncate max-w-[200px]">
                 {file.name}
               </span>
               <span className="text-sm text-muted-foreground whitespace-nowrap">

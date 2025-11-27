@@ -17,7 +17,7 @@ export function FileDropzone({
   handleFileSelect,
 }: FileDropzoneProps) {
   return (
-    <div className="px-6">
+    <div className="px-6 pb-4">
       <div
         className="border-2 border-dashed border-border rounded-md p-8 flex flex-col items-center justify-center text-center cursor-pointer"
         onClick={handleBoxClick}
@@ -28,16 +28,16 @@ export function FileDropzone({
           <Upload className="h-5 w-5 text-muted-foreground" />
         </div>
         <p className="text-sm font-medium text-foreground">
-          Upload a project image
+          Arrastra el archivo
         </p>
         <p className="text-sm text-muted-foreground mt-1">
-          or,{" "}
+          o,{" "}
           <label
             htmlFor="fileUpload"
             className="text-primary hover:text-primary/90 font-medium cursor-pointer"
             onClick={(e) => e.stopPropagation()} // Prevent triggering handleBoxClick
           >
-            click to browse
+            clickea para buscar
           </label>{" "}
           (4MB max)
         </p>
@@ -46,7 +46,7 @@ export function FileDropzone({
           id="fileUpload"
           ref={fileInputRef}
           className="hidden"
-          accept="image/*"
+          accept=".xlsx, .xls"
           onChange={(e) => handleFileSelect(e.target.files)}
         />
       </div>

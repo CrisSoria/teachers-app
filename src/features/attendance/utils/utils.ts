@@ -1,4 +1,10 @@
-import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays, AttendanceObj, AttStatus } from "@/features/attendance/interfaces/types";
+import {
+  IAttendanceProcessed,
+  IStudientAttendance,
+  IAttendanceHolidays,
+  AttendanceObj,
+  AttStatus,
+} from "@/features/attendance/interfaces/types";
 //TODO: lanza error si no hay datos o los datos no son validos
 /**
  * Processes raw attendance data into a structured format including student absences and holiday information.
@@ -11,14 +17,13 @@ import { IAttendanceProcessed, IStudientAttendance, IAttendanceHolidays, Attenda
  *   - dataTransformed: Array of attendance objects with student names and their daily status
  */
 export function processAttendanceData(
-  data: Array<Array<string|number>>
+  data: Array<Array<string | number>>
 ): IAttendanceProcessed {
   const dataTransformed = helperTransformAttendanceData(data);
   const studentAbsences = helperResumeAttendanceData(dataTransformed);
   const dates = helperGetHolidays(dataTransformed[0]);
-  return {studentAbsences, dates, dataTransformed};
+  return { studentAbsences, dates, dataTransformed };
 }
-
 
 /**
  * Transforms raw attendance data into an array of AttendanceObj
@@ -28,7 +33,7 @@ export function processAttendanceData(
  * @private
  */
 function helperTransformAttendanceData(
-  data: Array<Array<string|number>>
+  data: Array<Array<string | number>>
 ): Array<AttendanceObj> {
   const dataFinal: Array<AttendanceObj> = [];
   data.forEach((row) => {
@@ -38,7 +43,7 @@ function helperTransformAttendanceData(
         att[i] = row[i] as AttStatus;
       } else break;
     }
-    if(Object.keys(att).length === 32){
+    if (Object.keys(att).length === 32) {
       dataFinal.push(att);
     }
   });
@@ -60,7 +65,11 @@ function helperResumeAttendanceData(data: Array<AttendanceObj>) {
       absences: [],
     };
     for (const property in element) {
-      if (element[property] !== "P" && element[property] !== "-"&& property !== "student") {
+      if (
+        element[property] !== "P" &&
+        element[property] !== "-" &&
+        property !== "student"
+      ) {
         attObj.absences.push(Number(property));
       }
     }
@@ -84,5 +93,5 @@ function helperGetHolidays(data: AttendanceObj): IAttendanceHolidays {
   }
   const totalWorkingDays = 31 - holidays.length;
 
-  return {holidays, totalWorkingDays};
+  return { holidays, totalWorkingDays };
 }

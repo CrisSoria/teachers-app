@@ -215,7 +215,7 @@ export function RegisterForm() {
         <div className="p-3">
           <p className="text-muted-foreground text-center text-sm">
             ¿Tienes una cuenta?
-            <Button asChild variant="link" className="px-2">
+            <Button asChild variant="link" className="px-2 text-secondary">
               <Link href="#">Iniciar sesión</Link>
             </Button>
           </p>

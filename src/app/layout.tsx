@@ -51,13 +51,20 @@ export default function RootLayout({
         >
           <div className="fixed inset-0 -z-10 h-full">
             {/* Light theme background */}
-            <div className="absolute inset-0 bg-[linear-gradient(315deg,#E1BEE7_0%,#F3E5F5_20%,#FCE4EC_40%,#FFF0F5_60%,#F8BBD9_80%,#E1BEE7_100%)] dark:hidden" />
+            <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+              <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div>
+            </div>
             {/* Dark theme background */}
             <div
               className="absolute inset-0 hidden bg-black dark:block"
               style={{
-                backgroundImage:
-                  "radial-gradient(125% 125% at 50% 100%, #000000 40%, #350136 100%)",
+                backgroundColor: "#0a0a0a",
+                backgroundImage: `
+       radial-gradient(circle at 25% 25%, #222222 0.5px, transparent 1px),
+       radial-gradient(circle at 75% 75%, #111111 0.5px, transparent 1px)
+     `,
+                backgroundSize: "10px 10px",
+                imageRendering: "pixelated",
               }}
             />
           </div>

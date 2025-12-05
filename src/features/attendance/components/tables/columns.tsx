@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { AttendanceObj } from "../../interfaces/types";
 import { IVerticalSheet, IHorizontalSheet, ITotalSheet } from "./types";
@@ -28,6 +29,7 @@ export const colGeneral: ColumnDef<AttendanceObj>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
+        className=""
       />
     ),
     enableSorting: false,
@@ -62,28 +64,28 @@ for (let i = 1; i < 32; i++) {
     },
     cell: ({ row }) => {
       const day = row.original[i];
+      const styles = {
+        "-": "bg-gray-600/20 black:bg-gray-400/20 text-gray-500",
+        D: "bg-amber-400/20 text-amber-500",
+        Q: "bg-amber-400/20 text-amber-500",
+        T: "bg-amber-400/20 text-amber-500",
+        X: "bg-amber-400/20 text-amber-500",
+        M: "bg-indigo-400/20 text-indigo-500",
+        P: "bg-emerald-600/20 black:bg-emerald-400/20 text-emerald-700 black:text-emerald-500",
+        C: "bg-rose-600/20 black:bg-rose-400/20 text-rose-700 black:text-rose-500",
+      }[day];
 
-      if (day === "P") {
-        return (
-          <Item variant="success" size="sm">
-            {day}
-          </Item>
-        );
-      }
-      if (day === "C") {
-        return (
-          <Item variant="error" size="sm">
-            {day}
-          </Item>
-        );
-      }
-      if (day === "-") {
-        return (
-          <Item variant="gray" size="sm">
-            {day}
-          </Item>
-        );
-      }
+      return (
+        <div
+          className={cn(
+            "flex size-5 items-center justify-center rounded font-medium text-xs",
+            styles
+          )}
+          key={day}
+        >
+          {day}
+        </div>
+      );
     },
   });
 }

@@ -41,7 +41,7 @@ export function AttendanceSheet({
       {/* TODO: Crear un ciclo para los items */}
       <AccordionItem value="item-1">
         <AccordionTrigger>
-          <Heading size="h4">Planilla General</Heading>
+          <Heading size="md">Planilla General</Heading>
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <GeneralDataTable
@@ -52,7 +52,7 @@ export function AttendanceSheet({
       </AccordionItem>
       <AccordionItem value="item-2">
         <AccordionTrigger>
-          <Heading size="h4">Planilla Vertical</Heading>
+          <Heading size="md">Planilla Vertical</Heading>
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <GeneralDataTable columns={colVertical} data={verticalData} />
@@ -60,7 +60,7 @@ export function AttendanceSheet({
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger>
-          <Heading size="h4">Planilla Horizontal</Heading>
+          <Heading size="md">Planilla Horizontal</Heading>
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <HorizontalDataTable columns={colHorizontal} data={horizontalData} />
@@ -68,18 +68,21 @@ export function AttendanceSheet({
       </AccordionItem>
       <AccordionItem value="item-4">
         <AccordionTrigger>
-          <Heading size="h4">Planilla de totales</Heading>
+          <Heading size="md">Planilla de totales</Heading>
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <Text variant="default" size="lg" weight="bold" align="center">
-            La cantidad de días hábiles es: <span className="text-success">{attendance.dates.totalWorkingDays}</span>
+            La cantidad de días hábiles es:{" "}
+            <span className="text-success">
+              {attendance.dates.totalWorkingDays}
+            </span>
           </Text>
           <HorizontalDataTable columns={colTotal} data={totalData} />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-5">
         <AccordionTrigger>
-          <Heading size="h4">Planilla de Edades</Heading>
+          <Heading size="md">Planilla de Edades</Heading>
         </AccordionTrigger>
         <AccordionContent className="flex flex-col gap-4 text-balance">
           <HorizontalDataTable columns={colAgeGroup} data={ageData} />

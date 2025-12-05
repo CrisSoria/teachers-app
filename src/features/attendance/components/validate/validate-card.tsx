@@ -19,8 +19,8 @@ export function ValidateCard({
 
   return (
     <div>
-      <Heading variant="primary" size="h3" className="min-h-17">
-       {studentAbsence.student}
+      <Heading variant="primary" size="md" className="min-h-17">
+        {studentAbsence.student}
       </Heading>
       <Text variant="muted" className="my-4">
         {paragraph}
@@ -28,7 +28,7 @@ export function ValidateCard({
       <div className="flex justify-center gap-2 flex-wrap min-h-35">
         {studentAbsence.absences.map((day) => (
           <CheckboxCard
-            key={day+studentAbsence.student}
+            key={day + studentAbsence.student}
             variant="success"
             title={day.toString()}
             onCheckedChange={(checked) => console.log(day, checked)}

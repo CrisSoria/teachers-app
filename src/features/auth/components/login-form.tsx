@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { RegisterOtp } from "./register-otp";
 import { generateOtp } from "../services/otp.service";
-import { useUserStore } from "@/lib/user-store";
+import { useUserStore } from "@/store/user-store";
 
 export function LoginForm() {
   const [showOtp, setShowOtp] = useState(false);
@@ -224,7 +224,7 @@ export function LoginForm() {
         <div className="p-3">
           <p className="text-muted-foreground text-center text-sm">
             ¿No tienes una cuenta?
-            <Button asChild variant="link" className="px-2">
+            <Button asChild variant="link" className="px-2 text-secondary">
               <Link href="/registro">Crear cuenta</Link>
             </Button>
           </p>

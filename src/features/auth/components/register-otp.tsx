@@ -23,7 +23,7 @@ import { generateOtp } from "@/features/auth/services/otp.service";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/lib/user-store";
+import { useUserStore } from "@/store/user-store";
 
 export function RegisterOtp({
   email,

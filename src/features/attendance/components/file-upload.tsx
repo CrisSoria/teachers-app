@@ -16,7 +16,7 @@ import { Form } from "./form";
 import { readExcel } from "@/utilities/readExcel";
 import { IAttendanceProcessed } from "../interfaces/types";
 import { processAttendanceData } from "../utils/utils";
-import { useAttendanceStore } from "@/lib/attendance-store";
+import { useAttendanceStore } from "@/store/attendance-store";
 import Link from "next/link";
 
 const ROWS_TO_SKIP = 13; // Filas a saltar del archivo Excel del SINIDE

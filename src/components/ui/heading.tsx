@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const headingVariants = cva(
   "font-semibold tracking-tight text-foreground text-balance",
@@ -13,15 +13,15 @@ const headingVariants = cva(
         primary: "text-primary",
         secondary: "text-secondary-foreground",
         muted: "text-muted-foreground",
-        gradient: "bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent",
+        gradient:
+          "bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent",
       },
       size: {
-        h1: "text-4xl md:text-5xl lg:text-6xl",
-        h2: "text-3xl md:text-4xl lg:text-5xl",
-        h3: "text-2xl md:text-3xl lg:text-4xl",
-        h4: "text-xl md:text-2xl lg:text-3xl",
-        h5: "text-lg md:text-xl lg:text-2xl",
-        h6: "text-base md:text-lg lg:text-xl",
+        xl: "text-4xl md:text-5xl lg:text-6xl",
+        lg: "text-3xl md:text-4xl lg:text-5xl",
+        md: "text-2xl md:text-3xl lg:text-4xl",
+        sm: "text-xl md:text-2xl lg:text-3xl",
+        xs: "text-lg md:text-xl lg:text-2xl",
       },
       weight: {
         normal: "font-normal",
@@ -33,17 +33,17 @@ const headingVariants = cva(
     },
     defaultVariants: {
       variant: "default",
-      size: "h2",
+      size: "md",
       weight: "semibold",
     },
   }
-)
+);
 
 interface HeadingProps
   extends React.HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof headingVariants> {
-  asChild?: boolean
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+  asChild?: boolean;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
 function Heading({
@@ -55,14 +55,14 @@ function Heading({
   as,
   ...props
 }: HeadingProps) {
-  const Comp = asChild ? Slot : (as || "h2")
+  const Comp = asChild ? Slot : as || "h2";
 
   return (
     <Comp
       className={cn(headingVariants({ variant, size, weight, className }))}
       {...props}
     />
-  )
+  );
 }
 
-export { Heading, headingVariants }
+export { Heading, headingVariants };

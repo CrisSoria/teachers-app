@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { ValidateAttendance } from "@/features/attendance/components/validate/validate-attendance";
-import { useAttendanceStore } from "@/lib/attendance-store";
+import { useAttendanceStore } from "@/store/attendance-store";
 import { useState } from "react";
 import { AttendanceSheet } from "@/features/attendance/components/tables/attendance-sheet";
 

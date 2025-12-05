@@ -5,11 +5,9 @@ import { SinideInstructions } from "./components/sinide-instructions";
 
 export function New() {
   return (
-    <section
-      className="grid gap-12 md:grid-cols-2 md:gap-12 xl:grid-cols-5 lg:gap-24"
-    >
+    <section className="grid gap-12 md:grid-cols-2 md:gap-12 xl:grid-cols-5 lg:gap-24">
       <main className="xl:col-span-2">
-        <Heading size="h2">Cargar un nuevo mes</Heading>
+        <Heading size="lg">Cargar un nuevo mes</Heading>
         <Text className="my-6">
           Carga el “Reporte asistencia mensual por cursada” que obtienes desde
           la plataforma{" "}

@@ -17,10 +17,11 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 import { Logo } from "@/components/logo";
 import { usePathname } from "next/navigation";
-import { useUserStore } from "@/lib/user-store";
+import { useUserStore } from "@/store/user-store";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { logout } from "@/features/auth/services/auth.service";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 // Navigation links array depende si hay user logueado
 const guestLinks = [
@@ -34,6 +35,7 @@ const userLinks = [
 ];
 
 export function Navbar() {
+  const router = useRouter();
   const user = useUserStore((state) => state.user); //usuario logueado
   const removeUser = useUserStore((state) => state.removeUser);
   const currentPath = usePathname();
@@ -51,8 +53,7 @@ export function Navbar() {
       } else {
         toast.error(response.message);
       }
-      // TODO: Redirigir al login
-      window.location.href = "/login";
+      router.push("/login");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
       toast.error("Error al cerrar sesión. Inténtalo de nuevo.");

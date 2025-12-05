@@ -14,19 +14,15 @@ import {
 
 export function Month() {
   return (
-    <section
-      className="grid gap-12 md:grid-cols-2 md:gap-12 lg:grid-cols-5 lg:gap-24"
-    >
+    <section className="grid gap-12 md:grid-cols-2 md:gap-12 lg:grid-cols-5 lg:gap-24">
       <main className="lg:col-span-2">
-        <Heading size="h2">
-          Planillas de Asistencias
-        </Heading>
-        <Text className="my-6">Consultar las planillas de asistencias de meses anteriores</Text>
+        <Heading size="lg">Planillas de Asistencias</Heading>
+        <Text className="my-6">
+          Consultar las planillas de asistencias de meses anteriores
+        </Text>
         <Alert variant="destructive">
           <AlertCircleIcon />
-          <AlertTitle>
-            Atención
-          </AlertTitle>
+          <AlertTitle>Atención</AlertTitle>
           <AlertDescription>
             Para utilizar esta funcionalidad necesitas iniciar sesión.
           </AlertDescription>

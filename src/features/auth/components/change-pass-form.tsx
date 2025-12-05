@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { generateOtp } from "../services/otp.service";
 import { changePassword } from "../services/auth.service";
-import { useUserStore } from "@/lib/user-store";
+import { useUserStore } from "@/store/user-store";
 import { useRouter } from "next/navigation";
 
 export function ChangePassForm() {
